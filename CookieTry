@@ -1,0 +1,47 @@
+package com.example.cookie;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class CookieTry
+ */
+@WebServlet("/CookieTry")
+public class CookieTry extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Cookie[] list = request.getCookies();// request all cookies, cant get a
+												// specific cookie alone
+		boolean flag = false;
+		if (list != null) {// check for the availability of cookies
+			for (Cookie cookie : list) {//reading cookie
+				if ((cookie.getName().equals("value")) && (cookie.getValue().equals("true"))) {
+					flag = true;
+					break;
+
+				}
+
+			}
+		}
+
+		if (flag) {
+			PrintWriter out = response.getWriter();
+			out.println("<a href='logout'>logout</a>");
+			out.println("<h1>you are a valid user</h1>");
+		}
+		else{
+			response.sendRedirect("index.html");
+		}
+
+	}
+
+}
